@@ -9,13 +9,11 @@ public class UporabnikConverter {
 
         Uporabnik dto = new Uporabnik();
         dto.setId(entity.getId());
-        dto.setUstvarjen(entity.getUstvarjen());
-        dto.setUporabnik(entity.getKomentar());
-        dto.setOcena(entity.getOcena());
-        dto.setLokacija_id(entity.getLokacija_id());
-        dto.setUser_id(entity.getUser_id());
-
-
+        dto.setUsername(entity.getUsername());
+        dto.setAdmin(entity.getAdmin());
+        dto.setPassword(entity.getPassword());
+        dto.setSalt(entity.getSalt());
+        dto.setVisitedLocations(parseIntArray(entity.getVisitedLocations()));
 
         return dto;
 
@@ -24,15 +22,35 @@ public class UporabnikConverter {
     public static UporabnikEntity toEntity(Uporabnik dto) {
 
         UporabnikEntity entity = new UporabnikEntity();
-        entity.setUstvarjen(dto.getUstvarjen());
-        entity.setKomentar(dto.getUporabnik());
-        entity.setOcena(dto.getOcena());
-        entity.setLokacija_id(dto.getLokacija_id());
-        entity.setUser_id(dto.getUser_id());
-
+        entity.setUsername(dto.getUsername());
+        entity.setPassword(dto.getPassword());
+        entity.setAdmin(dto.getAdmin());
+        entity.setSalt(dto.getSalt());
+        entity.setVisitedLocations(stringify(dto.getVisitedLocations()));
 
         return entity;
 
+    }
+
+    private static int[] parseIntArray(String str) {
+        String[] strArray = str.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
+        int[] intArray = new int[strArray.length];
+        for(int i = 0; i < strArray.length; i++) {
+            intArray[i] = Integer.parseInt(strArray[i]);
+        }
+        return intArray;
+    }
+
+    private static String stringify(int[] intArray) {
+        String str = "[";
+        for(int i = 0; i < intArray.length; i++) {
+            str += intArray[i];
+            if(i != intArray.length - 1) {
+                str += ",";
+            }
+        }
+        str += "]";
+        return str;
     }
 
 }

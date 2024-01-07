@@ -3,7 +3,6 @@ package si.fri.rso.uporabnik.services.beans;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
@@ -59,7 +58,7 @@ public class UporabnikBean {
 
         return uporabnik;
     }
-    public List<Uporabnik> getUporabnikByDestinacija(Integer id) {
+    /*public List<Uporabnik> getUporabnikByDestinacija(Integer id) {
 
         TypedQuery<UporabnikEntity> query = em.createNamedQuery(
                 "UporabnikEntity.getByLokacijaId", UporabnikEntity.class).setParameter("lokacija_id", id);
@@ -68,11 +67,22 @@ public class UporabnikBean {
 
         return resultList.stream().map(UporabnikConverter::toDto).collect(Collectors.toList());
 
-    }
-    public List<Uporabnik> getUporabnikByUser(Integer id) {
+    }*/
+    public List<Uporabnik> getUporabnikById(Integer id) {
 
         TypedQuery<UporabnikEntity> query = em.createNamedQuery(
-                "UporabnikEntity.getByUserId", UporabnikEntity.class).setParameter("user_id", id);
+                "UporabnikEntity.getByUserId", UporabnikEntity.class).setParameter("id", id);
+
+        List<UporabnikEntity> resultList = query.getResultList();
+
+        return resultList.stream().map(UporabnikConverter::toDto).collect(Collectors.toList());
+
+    }
+
+    public List<Uporabnik> getUporabnikByUsername(String username) {
+
+        TypedQuery<UporabnikEntity> query = em.createNamedQuery(
+                "UporabnikEntity.getByUsername", UporabnikEntity.class).setParameter("username", username);
 
         List<UporabnikEntity> resultList = query.getResultList();
 

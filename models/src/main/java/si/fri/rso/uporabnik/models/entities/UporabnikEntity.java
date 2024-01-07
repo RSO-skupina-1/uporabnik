@@ -2,6 +2,7 @@ package si.fri.rso.uporabnik.models.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "uporabnik_metadata")
@@ -10,11 +11,14 @@ import java.time.Instant;
                 @NamedQuery(name = "UporabnikEntity.getAll",
                         query = "SELECT kd FROM UporabnikEntity kd"),
                 @NamedQuery(name = "UporabnikEntity.getByUserId",
-                        query = "SELECT kd FROM UporabnikEntity kd WHERE kd.user_id = " +
-                                ":user_id"),
-                @NamedQuery(name = "UporabnikEntity.getByLokacijaId",
-                        query = "SELECT kd FROM UporabnikEntity kd WHERE kd.lokacija_id = " +
-                                ":lokacija_id")
+                        query = "SELECT kd FROM UporabnikEntity kd WHERE kd.id = " +
+                                ":id"),
+                @NamedQuery(name = "UporabnikEntity.getByUsername",
+                        query = "SELECT kd FROM UporabnikEntity kd WHERE kd.usrename = " +
+                                ":username"),
+                @NamedQuery(name = "UporabnikEntity.getVisitedLocations",
+                        query = "SELECT kd.visitedLocations FROM UporabnikEntity kd WHERE kd.id = " +
+                                ":id")
         })
 
 
@@ -25,19 +29,20 @@ public class UporabnikEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "user_id")
-    private Integer user_id;
+    @Column(name = "username")
+    private String usrename;
 
-    @Column(name = "lokacija_id")
-    private Integer lokacija_id;
-    @Column(name = "uporabnik")
-    private String uporabnik;
+    @Column(name = "password")
+    private String password;
 
-    @Column(name = "ocena")
-    private Integer ocena;
+    @Column(name = "admin")
+    private Boolean admin;
+    @Column(name = "salt")
+    private String salt;
 
-    @Column(name = "ustvarjen")
-    private Instant ustvarjen;
+    @Column(name = "visitedLocations")
+    private String visitedLocations;
+
 
     public Integer getId() {
         return id;
@@ -45,35 +50,35 @@ public class UporabnikEntity {
     public void setId(Integer id) {
         this.id = id;
     }
-    public Integer getUser_id() {
-        return user_id;
+    public String getUsername() {
+        return usrename;
     }
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUsername(String username) {
+        this.usrename = username;
     }
-    public Integer getLokacija_id() {
-        return lokacija_id;
+    public String getPassword() {
+        return password;
     }
-    public void setLokacija_id(Integer lokacija_id) {
-        this.lokacija_id = lokacija_id;
+    public void setPassword(String password) {
+        this.password = password;
     }
-    public String getKomentar() {
-        return uporabnik;
+    public String getSalt() {
+        return salt;
     }
-    public void setKomentar(String uporabnik) {
-        this.uporabnik = uporabnik;
-    }
-    public Integer getOcena() {
-        return ocena;
-    }
-    public void setOcena(Integer ocena) {
-        this.ocena = ocena;
-    }
-    public Instant getUstvarjen() {
-        return ustvarjen;
-    }
-    public void setUstvarjen(Instant ustvarjen) {
-        this.ustvarjen = ustvarjen;
+    public void setSalt(String salt) { this.salt = salt; }
+    public String getVisitedLocations() {
+        return visitedLocations;
     }
 
+    public void setVisitedLocations(String visitedLocations) {
+        this.visitedLocations = visitedLocations;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
 }

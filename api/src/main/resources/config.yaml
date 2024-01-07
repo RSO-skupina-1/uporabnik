@@ -9,9 +9,9 @@ kumuluzee:
       port: 8083
   datasources:
     - jndi-name: jdbc/UporabnikDS
-      connection-url: jdbc:postgresql://ep-ancient-fog-19741782-pooler.eu-central-1.aws.neon.tech/izletnik
-      username: grzin
-      password: ep2sMLqtu3rk
+      connection-url: jdbc:postgresql://ep-twilight-meadow-75165427.eu-central-1.aws.neon.tech/katalog-destinacij-db
+      username: urbi.cor
+      password: XW6sdZnq3jpH
   openapi-mp:
     ui:
       specification-server: http://localhost:8083

@@ -1,16 +1,19 @@
 package si.fri.rso.uporabnik.lib;
 
 import java.time.Instant;
+import java.util.List;
 
 public class Uporabnik {
 
     /* same attributes as in Uporabnik Entity */
     private Integer id;
-    private String uporabnik;
-    private Integer user_id;
-    private Integer lokacija_id;
-    private Integer ocena;
-    private Instant ustvarjen;
+    private String username;
+    private String password;
+    private Boolean admin;
+
+    private String salt;
+
+    private int[] visitedLocations;
 
     /* getter and setter methods for the entity's attributes */
     public Integer getId() {
@@ -19,34 +22,37 @@ public class Uporabnik {
     public void setId(Integer id) {
         this.id = id;
     }
-    public String getUporabnik() {
-        return uporabnik;
+    public String getUsername() {
+        return username;
     }
-    public void setUporabnik(String uporabnik) {
-        this.uporabnik = uporabnik;
+    public void setUsername(String username) {
+        this.username = username;
     }
-    public Integer getUser_id() {
-        return user_id;
+    public String getPassword() {
+        return password;
     }
-    public void setUser_id(Integer user_id) {
-        this.user_id= user_id;
+    public void setPassword(String password) {
+        this.password = password;
     }
-    public Integer getLokacija_id() {
-        return lokacija_id;
+    public String getSalt() {
+        return salt;
     }
-    public void setLokacija_id(Integer lokacija_id) {
-        this.lokacija_id = lokacija_id;
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
-    public Integer getOcena() {
-        return ocena;
+
+    public int[] getVisitedLocations() {
+        return visitedLocations;
     }
-    public void setOcena(Integer ocena) {
-        this.ocena = ocena;
+    public void setVisitedLocations(int[] visitedLocations) {
+        this.visitedLocations = visitedLocations;
     }
-    public Instant getUstvarjen() {
-        return ustvarjen;
+
+    public Boolean getAdmin() {
+        return admin;
     }
-    public void setUstvarjen(Instant ustvarjen) {
-        this.ustvarjen = ustvarjen;
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 }
