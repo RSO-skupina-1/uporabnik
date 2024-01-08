@@ -13,15 +13,15 @@ spec:
         app: uporabnik
     spec:
       containers:
-        - image: prelog/rso_uporabnik:2023-12-05-05-57-49
-          name: komentar
+        - image: corurban/uporabnik:2024-01-08-12-25-23
+          name: uporabnik
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgresql://ep-ancient-fog-19741782-pooler.eu-central-1.aws.neon.tech/izletnik
+              value: jdbc:postgresql://ep-twilight-meadow-75165427.eu-central-1.aws.neon.tech/katalog-destinacij-db
             - name: KUMULUZEE_DATASOURCES0_USERNAME
-              value: grzin
+              value: urbi.cor
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
-              value: ep2sMLqtu3rk
+              value: XW6sdZnq3jpH
               #valueFrom: #use Kubernetes secret for storing the password
                 #secretKeyRef:
                   #name: #to be added
@@ -49,10 +49,9 @@ kind: Service
 metadata:
   name: uporabnik-service
 spec:
-  type: LoadBalancer
   ports:
-    - port: 8083
+    - port: 80
       protocol: TCP
-      targetPort: server
+      targetPort: 8083
   selector:
     app: uporabnik
