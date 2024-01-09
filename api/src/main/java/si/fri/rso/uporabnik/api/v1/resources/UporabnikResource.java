@@ -1,6 +1,7 @@
 package si.fri.rso.uporabnik.api.v1.resources;
 
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -29,6 +30,7 @@ import java.util.logging.Logger;
 @Path("/uporabnik")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@CrossOrigin(name="katalogDestinacij", allowOrigin = "*")
 public class UporabnikResource {
 
     private Logger log = Logger.getLogger(UporabnikResource.class.getName());
@@ -51,6 +53,11 @@ public class UporabnikResource {
     public Response getUporabnik() {
         log.info("Get all users.") ;
         List<Uporabnik> uporabnik = uporabnikBean.getUporabnik();
+
+        // go through all users and set password to empty string
+        for (Uporabnik u : uporabnik) {
+            u.setPassword("");
+        }
 
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
@@ -78,7 +85,7 @@ public class UporabnikResource {
         if (uporabnik == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
+        uporabnik.setPassword("");
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
 
@@ -93,9 +100,10 @@ public class UporabnikResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         if (uporabnik1.get(0).getPassword().equals(password)) {
+            uporabnik1.get(0).setPassword("");
             return Response.status(Response.Status.OK).entity(uporabnik1).build();
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
 
@@ -115,6 +123,7 @@ public class UporabnikResource {
         }
 
         uporabnik = uporabnikBean.createUporabnik(uporabnik);
+        uporabnik.setPassword("");
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
 

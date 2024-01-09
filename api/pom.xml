@@ -9,6 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>uporabnik-api</artifactId>
+
+    <properties>
+        <kumuluzee-cors.version>1.0.6</kumuluzee-cors.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
@@ -57,6 +61,11 @@
             <version>20231013</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.kumuluz.ee.cors</groupId>
+            <artifactId>kumuluzee-cors</artifactId>
+            <version>${kumuluzee-cors.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
