@@ -89,6 +89,18 @@ public class UporabnikResource {
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
 
+    @Operation(description = "login.", summary = "Checks if the login details are correct.")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "Successfully returns chosen user.",
+                    content = @Content(
+                            schema = @Schema(implementation = Uporabnik.class))
+            ),
+            @APIResponse(responseCode = "404",
+                    description = "User with given ID doesn't exist."),
+            @APIResponse(responseCode = "401",
+                    description = "Wrong password.")
+    })
     @POST
     @Path("/login")
     public Response login(Uporabnik uporabnik) {
@@ -107,6 +119,16 @@ public class UporabnikResource {
         }
     }
 
+    @Operation(description = "register.", summary = "Registers a new user.")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "Successfully returns chosen user.",
+                    content = @Content(
+                            schema = @Schema(implementation = Uporabnik.class))
+            ),
+            @APIResponse(responseCode = "409",
+                    description = "User with given username already exists.")
+    })
     @POST
     @Path("/register")
         public Response register(@RequestBody(
@@ -126,32 +148,6 @@ public class UporabnikResource {
         uporabnik.setPassword("");
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
-
-    /*@Operation(description = "Get comments by user ID.", summary = "Returns all comments posted by user with coresponding user ID.")
-    @APIResponses({
-            @APIResponse(responseCode = "200",
-                    description = "Successfully returns chosen users comments.",
-                    content = @Content(
-                            schema = @Schema(implementation = Uporabnik.class, type = SchemaType.ARRAY))
-            ),
-            @APIResponse(responseCode = "404",
-                    description = "User with given ID doesn't exist.")
-    })
-    @GET
-    @Path("user/{userId}")
-    public Response getUporabnikByUser(@Parameter(description = "User ID.", required = true)
-                                 @PathParam("userId") Integer userId) {
-
-        log.info("Get all comments posted by user with id: " + userId);
-
-        List<Uporabnik> uporabnik = uporabnikBean.getUporabnikById(userId);
-
-        if (uporabnik == null || uporabnik.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return Response.status(Response.Status.OK).entity(uporabnik).build();
-    }*/
 
     @Operation(description = "Delete user with given id.", summary = "Delete user with corresponding uporabnik ID.")
     @APIResponses({

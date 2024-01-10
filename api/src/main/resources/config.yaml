@@ -13,6 +13,9 @@ kumuluzee:
       username: urbi.cor
       password: XW6sdZnq3jpH
   openapi-mp:
+    enabled: true
+    servlet:
+      mapping: /v1/uporabnik/openapi
     ui:
       specification-server: http://localhost:8083
   health:
