@@ -66,6 +66,11 @@
             <artifactId>kumuluzee-cors</artifactId>
             <version>${kumuluzee-cors.version}</version>
         </dependency>
+
+        <dependency>
+            <artifactId>kumuluzee-logs-log4j2</artifactId>
+            <groupId>com.kumuluz.ee.logs</groupId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

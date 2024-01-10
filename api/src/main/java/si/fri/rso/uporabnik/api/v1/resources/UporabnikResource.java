@@ -2,6 +2,7 @@ package si.fri.rso.uporabnik.api.v1.resources;
 
 
 import com.kumuluz.ee.cors.annotations.CrossOrigin;
+import com.kumuluz.ee.logs.cdi.Log;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-
+@Log
 @ApplicationScoped
 @Path("/uporabnik")
 @Produces(MediaType.APPLICATION_JSON)
