@@ -47,7 +47,7 @@ public class UporabnikResource {
     @APIResponses({
             @APIResponse(responseCode = "200",
                     description = "Array of comments",
-                    content = @Content(schema = @Schema(implementation = Uporabnik.class, type = SchemaType.ARRAY))
+                    content = @Content(schema = @Schema(implementation = Uporabnik.class, type = SchemaType.ARRAY), example = "[{\"admin\":true,\"id\":1,\"password\":\"\",\"salt\":\"a\",\"username\":\"uc\",\"visitedLocations\":[1,2]}]")
             )})
     @GET
     public Response getUporabnik() {
@@ -68,7 +68,7 @@ public class UporabnikResource {
             @APIResponse(responseCode = "200",
                     description = "Successfully returns chosen user.",
                     content = @Content(
-                            schema = @Schema(implementation = Uporabnik.class))
+                            schema = @Schema(implementation = Uporabnik.class),example = "{\"admin\":true,\"id\":1,\"password\":\"\",\"salt\":\"a\",\"username\":\"uc\",\"visitedLocations\":[1,2]}")
             ),
             @APIResponse(responseCode = "404",
                     description = "User with given ID doesn't exist.")
@@ -94,7 +94,7 @@ public class UporabnikResource {
             @APIResponse(responseCode = "200",
                     description = "Successfully returns chosen user.",
                     content = @Content(
-                            schema = @Schema(implementation = Uporabnik.class))
+                            schema = @Schema(implementation = Uporabnik.class), example = "{\"admin\":true,\"id\":1,\"password\":\"\",\"salt\":\"a\",\"username\":\"uc\",\"visitedLocations\":[1,2]}")
             ),
             @APIResponse(responseCode = "404",
                     description = "User with given ID doesn't exist."),
@@ -124,7 +124,7 @@ public class UporabnikResource {
             @APIResponse(responseCode = "200",
                     description = "Successfully returns chosen user.",
                     content = @Content(
-                            schema = @Schema(implementation = Uporabnik.class))
+                            schema = @Schema(implementation = Uporabnik.class), example = "{\"admin\":true,\"id\":1,\"password\":\"\",\"salt\":\"a\",\"username\":\"uc\",\"visitedLocations\":[1,2]}")
             ),
             @APIResponse(responseCode = "409",
                     description = "User with given username already exists.")
@@ -177,9 +177,4 @@ public class UporabnikResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
-
-
-
-
-
 }
