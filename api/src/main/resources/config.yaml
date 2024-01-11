@@ -17,6 +17,7 @@ kumuluzee:
     servlet:
       mapping: /v1/uporabnik/openapi
     ui:
+      mapping: /v1/uporabnik/api-specs/ui
       specification-server: http://localhost:8083
   health:
     checks:
