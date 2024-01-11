@@ -45,9 +45,9 @@ kumuluzee:
                                   </Loggers>
                               </Configuration>'
   metrics:
-    web-instrumentation:
-      - name: destinacije-endpoint
-        url-pattern: /v1/uporabnik/*
+    servlet:
+      enabled: true
+      mapping: /v1/uporabnik/metrics
   cors:
     enabled: true
     paths: "/*"
