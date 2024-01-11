@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 @Path("/uporabnik")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@CrossOrigin(name="katalogDestinacij", allowOrigin = "*")
+@CrossOrigin(name="katalogDestinacij", allowOrigin = "*", supportedMethods = "GET, POST, HEAD, PUT, DELETE, OPTIONS")
 public class UporabnikResource {
 
     private Logger log = Logger.getLogger(UporabnikResource.class.getName());
@@ -51,6 +51,7 @@ public class UporabnikResource {
                     content = @Content(schema = @Schema(implementation = Uporabnik.class, type = SchemaType.ARRAY), example = "[{\"admin\":true,\"id\":1,\"password\":\"\",\"salt\":\"a\",\"username\":\"uc\",\"visitedLocations\":[1,2]}]")
             )})
     @GET
+    @CrossOrigin(allowOrigin = "*")
     public Response getUporabnik() {
         log.info("Get all users.") ;
         List<Uporabnik> uporabnik = uporabnikBean.getUporabnik();
@@ -76,10 +77,11 @@ public class UporabnikResource {
     })
     @GET
     @Path("/{uporabnikId}")
+    @CrossOrigin(allowOrigin = "*")
     public Response getUporabnik(@Parameter(description = "User ID.", required = true)
                                      @PathParam("uporabnikId") Integer uporabnikId) {
 
-        log.info("Get comment with id: " + uporabnikId);
+        log.info("Get user with id: " + uporabnikId);
 
         Uporabnik uporabnik = uporabnikBean.getUporabnik(uporabnikId);
 
@@ -104,6 +106,7 @@ public class UporabnikResource {
     })
     @POST
     @Path("/login")
+    @CrossOrigin(allowOrigin = "*")
     public Response login(Uporabnik uporabnik) {
         log.info("Login user: " + uporabnik.getUsername());
         String username = uporabnik.getUsername();
@@ -132,7 +135,8 @@ public class UporabnikResource {
     })
     @POST
     @Path("/register")
-        public Response register(@RequestBody(
+    @CrossOrigin(allowOrigin = "*")
+    public Response register(@RequestBody(
                 description = "DTO object with uporabnik metadata.",
                 required = true, content = @Content(
                 schema = @Schema(implementation = Uporabnik.class))) Uporabnik uporabnik) {
@@ -164,6 +168,7 @@ public class UporabnikResource {
     @DELETE
     @Counted(name = "number_of_deleted_comments")
     @Path("/{uporabnikId}")
+    @CrossOrigin(allowOrigin = "*")
     public Response deleteUporabnik(@Parameter(description = "User ID.", required = true)
                                         @PathParam("uporabnikId") Integer uporabnikId){
 
@@ -177,5 +182,75 @@ public class UporabnikResource {
         else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+
+    @Operation(description = "Update visited locations for user with given id.", summary = "Update visited locations for user with corresponding uporabnik ID.")
+    @APIResponses({
+            @APIResponse(
+                    responseCode = "200",
+                    description = "User successfully updated.",
+                    content = @Content(
+                            schema = @Schema(implementation = Uporabnik.class), example = "{\"admin\":true,\"id\":1,\"password\":\"\",\"salt\":\"a\",\"username\":\"uc\",\"visitedLocations\":[1,2]}")
+            ),
+            @APIResponse(
+                    responseCode = "404",
+                    description = "User with given user ID was not found."
+            )
+    })
+    @POST
+    @Path("/{uporabnikId}/obiskane/{destinacijaId}")
+    @CrossOrigin(allowOrigin = "*")
+    public Response posodobiObiskane(@Parameter(description = "id uporabnika", required = true)
+                                         @PathParam("uporabnikId") Integer uporabnikId,
+                                     @Parameter(description = "id destinacije", required = true)
+                                     @PathParam("destinacijaId") Integer destinacijaId) {
+
+        log.info("Update visited locations for user with id: " + uporabnikId);
+
+        Uporabnik uporabnik = uporabnikBean.getUporabnik(uporabnikId);
+        if (uporabnik == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        int[] newVisited = new int[uporabnik.getVisitedLocations().length + 1];
+        for (int i = 0; i < uporabnik.getVisitedLocations().length; i++) {
+            newVisited[i] = uporabnik.getVisitedLocations()[i];
+        }
+        newVisited[uporabnik.getVisitedLocations().length] = destinacijaId;
+        uporabnik.setVisitedLocations(newVisited);
+
+        Uporabnik uporabnik1 = uporabnikBean.putUporabnik(uporabnikId, uporabnik);
+        uporabnik1.setPassword("");
+        return Response.status(Response.Status.OK).entity(uporabnik1).build();
+    }
+
+    @POST
+    @Path("/{uporabnikId}/obiskane/{destinacijaId}/delete")
+    @CrossOrigin(allowOrigin = "*")
+    public Response deleteObiskana(@Parameter(description = "id uporabnika", required = true)
+                                         @PathParam("uporabnikId") Integer uporabnikId,
+                                     @Parameter(description = "id destinacije", required = true)
+                                     @PathParam("destinacijaId") Integer destinacijaId) {
+
+        log.info("Update visited locations for user with id: " + uporabnikId);
+
+        Uporabnik uporabnik = uporabnikBean.getUporabnik(uporabnikId);
+        if (uporabnik == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        int[] newVisited = new int[uporabnik.getVisitedLocations().length - 1];
+        int j = 0;
+        for (int i = 0; i < uporabnik.getVisitedLocations().length; i++) {
+            if (uporabnik.getVisitedLocations()[i] != destinacijaId) {
+                newVisited[j] = uporabnik.getVisitedLocations()[i];
+                j++;
+            }
+        }
+        uporabnik.setVisitedLocations(newVisited);
+
+        Uporabnik uporabnik1 = uporabnikBean.putUporabnik(uporabnikId, uporabnik);
+        uporabnik1.setPassword("");
+        return Response.status(Response.Status.OK).entity(uporabnik1).build();
     }
 }
